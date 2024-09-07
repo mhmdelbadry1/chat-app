@@ -2,11 +2,30 @@ const path = require('path');
 const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
+const cors = require('cors');
+
 const Filter = require('bad-words')
 const {generateMessage , generateLocation} = require('./src/utils/messages')
 const app = express();
 const server = http.createServer(app);
-const io = socketio(server);
+const io = socketio(server, {
+  cors: {
+    origin: "*", // Allow all origins, you can restrict this based on your frontend deployment
+    methods: ["GET", "POST"]
+  },
+  transports: ['websocket', 'polling'] // Ensure WebSocket is enabled
+});
+
+const corsOptions = {
+  origin: 'https://chat-7999epqu0-mhmdelbadry1s-projects.vercel.app/', // Change this to your frontend domain in production
+  methods: ['GET', 'POST'],
+  allowedHeaders: ['Content-Type'],
+  credentials: true
+};
+
+app.use(cors(corsOptions));
+
+
 const {addUser,removeUser,getUser,getUserInRoom} = require('./src/utils/users')
 
 const PORT = process.env.PORT || 3000;

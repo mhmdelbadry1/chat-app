@@ -1,5 +1,7 @@
 
-const socket = io();
+const socket = io({
+  transports: ['websocket'], // Explicitly set WebSocket as the primary transport
+});
 // Elements
 const $messageForm = document.querySelector("#message-form");
 const $messageFormInput = $messageForm.querySelector('input');
