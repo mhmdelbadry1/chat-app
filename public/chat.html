@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat App</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" href="/img/icons8-facebook-messenger-96.png">
+  <link href="/output.css" rel="stylesheet">
+
+  <style>
+    /* Prevent horizontal and vertical scroll */
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+    
+    .input-container {
+      display: flex;
+      align-items: center;
+    }
+    
+    .input-field {
+      height: 2.5rem; /* Adjust the height as needed */
+    }
+    
+    .button {
+      height: 2.5rem; /* Adjust the height to match the input field */
+    }
+    
+    #message-form {
+      backdrop-filter: blur(5px);
+      background-color: rgba(210, 210, 210, 0.026);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.425);
+      max-width: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    @media screen and (max-width: 400px) {
+      #message-form {
+        margin: 0 10px; /* Adjust the margin for smaller screens */
+      }
+    }
+
+    .chat-messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      /* Adjust height as needed to fit within the viewport */
+      max-height: calc(100vh - 270px); /* Adjust based on header/footer height */
+    }
+
+    .input-container {
+      max-width: 100%;
+    }
+
+    .list-title {
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 4px;
+    padding: 12px 24px 0 24px;
+}
+.users {
+    list-style-type: none;
+    font-weight: 300;
+    padding: 12px 24px 0 24px;
+}
+    
+  </style>
+</head>
+<body style="background-image: url('/img/bg_star.png'); background-repeat: no-repeat; background-size: cover;" class="text-gray-100 flex flex-col min-h-screen">
+  <!-- Header -->
+  <header class="backdrop-blur-md text-white p-4 shadow-lg bg-slate-900">
+    <div class="container mx-auto flex flex-wrap justify-between items-center">
+      <h1 class="text-2xl font-bold text-[#deb992]">ChatApp</h1>
+      <div class="flex space-x-4 mt-2 md:mt-0">
+        <button class="bg-transparent p-2 rounded-lg text-[#deb992] transition hover:bg-[#1ba098]">
+          Profile
+        </button>
+        <button id="logoutBtn" class="bg-transparent p-2 rounded-lg text-[#deb992] transition hover:bg-[#1ba098]">
+          Logout
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <div class="container mx-auto flex flex-wrap mt-4 space-x-4 flex-grow">
+    <!-- Sidebar -->
+    <aside id="sidebar" class="w-full md:w-1/4 bg-[#d2d2d2]/[.026] p-4 rounded-lg shadow-lg hidden md:block">
+      <h2 class="text-xl font-semibold mb-4">Online Users</h2>
+      
+    </aside>
+
+    <!-- Chat Area -->
+    <form id="message-form" class="flex-1 p-7 rounded-lg shadow-lg bg-[#ffffff]/[.7] backdrop-blur-md">
+      <div class="chat-messages overflow-y-auto p-6 mb-4 rounded-lg">
+        <!-- Chat Messages -->
+      </div>
+
+      <!-- Input Area -->
+      <div class="flex flex-row input-container">
+        <input
+          type="text"
+          name="message"
+          class="input-field flex-1 p-2 border border-purple-500 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-purple-950 bg-gray-300 text-black placeholder-gray-500"
+          placeholder="Type your message..."
+        />
+        <button class="button bg-purple-900 text-white p-2 rounded-r-lg hover:bg-purple-600 transition">
+          Send
+        </button>
+        <!-- Send Location Button -->
+        <button
+          id="sendLocation"
+          class="button ml-2 bg-purple-900 p-2 rounded-lg hover:bg-purple-600 hover:scale-105 hover:shadow-2xl transition-all duration-300 ease-in-out text-white flex items-center justify-center space-x-2"
+        >
+          <div id="icon-container" class="flex items-center space-x-2">
+            <svg
+              id="sendIcon"
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 19V6l13 7-13 6z"
+              />
+            </svg>
+            <svg
+              id="loading"
+              width="20"
+              height="20"
+              fill="currentColor"
+              class="mr-2 hidden animate-spin"
+              viewBox="0 0 1792 1792"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M526 1394q0 53-37.5 90.5t-90.5 37.5q-52 0-90-38t-38-90q0-53 37.5-90.5t90.5-37.5 90.5 37.5 37.5 90.5zm498 206q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-704-704q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm1202 498q0 52-38 90t-90 38q-53 0-90.5-37.5t-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-964-996q0 66-47 113t-113 47-113-47-47-113 47-113 113-47 113 47 47 113zm1170 498q0 53-37.5 90.5t-90.5 37.5-90.5-37.5-37.5-90.5 37.5-90.5 90.5-37.5 90.5 37.5 37.5 90.5zm-640-704q0 80-56 136t-136 56-136-56-56-136 56-136 136-56 136 56 56 136zm530 206q0 93-66 158.5t-158 65.5q-93 0-158.5-65.5t-65.5-158.5q0-92 65.5-158t158.5-66q92 0 158 66t66 158z"
+              ></path>
+            </svg>
+          </div>
+          <span>Location</span>
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <footer class="mt-4 p-4 text-center" style="background-color: #051622; color: #deb992;">
+    <p class="hover:text-[#1ba098] transition duration-300">&copy; 2024 ChatApp. Mohamed Elbadry Who Created it.</p>
+  </footer>
+
+
+
+
+  <script id="message-template" type="text/html">
+    <div class="chat {{chatAlignmentClass}} mb-4 ">
+          {{#isCurrentUser}}
+          <div class="chat-bubble bg-cyan-900 text-white  rounded-lg max-w-xs"
+            >
+            <span class="font-bold opacity-50 text-white">{{username}}</span>
+            <div class="mb-1">
+              {{#isLocation}}
+                <a href="{{locationUrl}}" target="_blank">My current location</a>
+              {{/isLocation}}
+              {{^isLocation}}
+                {{message}}
+              {{/isLocation}}
+            </div>
+            <div class="flex justify-end">
+              <span class="text-xs text-gray-400">{{createdAt}}</span>
+            </div>
+          </div>
+          {{/isCurrentUser}}
+
+          {{^isCurrentUser}}
+
+          <div class="chat-bubble bg-gray-600 text-white  rounded-lg max-w-xs"
+          >
+          <span class="font-bold opacity-50 text-white">{{username}}</span>
+          <div class="mb-1">
+            {{#isLocation}}
+              <a  href="{{locationUrl}}" target="_blank">My current location</a>
+            {{/isLocation}}
+            {{^isLocation}}
+              {{message}}
+            {{/isLocation}}
+          </div>
+          <div class="flex justify-end">
+            <span class="text-xs text-gray-400">{{createdAt}}</span>
+          </div>
+        </div>
+        {{/isCurrentUser}}
+
+      
+      
+    </div>
+  </script>
+
+  <script id="sidebar-template" type="text/html">
+    <h2  class="text-3xl font-semibold mb-4 ">Room {{room}}</h2>
+
+    <h3 class="list-title">Online Users</h3>
+    <ul class="users">
+        {{#users}}
+        <li class="flex items-center mb-2">
+          <div class="bg-green-500 h-3 w-3 rounded-full mr-2"></div>
+          <span>{{username}}</span>
+        </li>
+        {{/users}}
+    </ul>
+</script>
+
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/alertifyjs/build/alertify.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/alertifyjs/build/css/alertify.min.css"/>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/chat.js"></script>
+</body>
+</html>

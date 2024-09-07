@@ -1,0 +1,64 @@
+
+#message-form {
+  backdrop-filter: blur(5px);
+  background-color: rgba(210, 210, 210, 0.026);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.425);
+  margin-right: auto; /* Ensure the form isn't sticking to the right side by default */
+}
+
+@media screen and (max-width: 500px) {
+  #message-form {
+    margin-right: 10px; /* Adjust the margin as needed */
+    margin-left: 10px;  /* Optional: Adjust the left margin as needed */
+  }
+}
+@media screen and (max-width: 800px) {
+  #message-form {
+    margin-right: 10px; /* Adjust the margin as needed */
+    margin-left: 10px;  /* Optional: Adjust the left margin as needed */
+  }
+}
+@media screen and (max-width: 415px) {
+  #message-form {
+    margin-right: 10px; /* Adjust the margin as needed */
+    margin-left: 10px;  /* Optional: Adjust the left margin as needed */
+  }
+}
+
+.chat-messages{
+    backdrop-filter: blur(2px);
+    background-color: rgba(0, 0, 0, 0.389);
+    
+}
+
+    /* Customize the alertify dialog */
+    .alertify .ajs-header {
+        background-color: #4CAF50; /* Change header background */
+        color: white; /* Header text color */
+        font-size: 1.5em; /* Increase header font size */
+    }
+
+    .alertify .ajs-footer {
+        background-color: #f1f1f1; /* Change footer background */
+    }
+
+    .alertify .ajs-body {
+        background-color: white; /* Set the background color of the body */
+        font-size: 1.2em; /* Increase the font size */
+        color: #333; /* Set body text color */
+        border-radius: 10px; /* Add border-radius to make it look smooth */
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    }
+
+    .alertify .ajs-dialog {
+        opacity: 1; /* Remove transparency */
+        border-radius: 15px;
+    }
+
+    .alertify .ajs-button.ajs-ok {
+        background-color: #4CAF50; /* Change button color */
+        color: white; /* Button text color */
+        border: none; /* Remove border */
+        padding: 10px 20px; /* Add padding to make the button bigger */
+        border-radius: 5px; /* Rounded corners */
+    }
