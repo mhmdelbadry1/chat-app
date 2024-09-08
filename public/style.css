@@ -25,6 +25,14 @@
   }
 }
 
+@media screen and (max-width: 376px) {
+  #message-form {
+    width: 340px;
+    margin-right: 10px; /* Adjust the margin as needed */
+    margin-left: 10px;  /* Optional: Adjust the left margin as needed */
+  }
+}
+
 .chat-messages{
     backdrop-filter: blur(2px);
     background-color: rgba(0, 0, 0, 0.389);
