@@ -136,15 +136,7 @@ socket.emit('join', { username, room } , (error , id)=>{
 });
 
 
-socket.on('roomData' , ({room ,users})=>{
- const html = Mustache.render(sideBarTemplate , {
-  room, 
-  users
- })
- document.querySelector('#sidebar').innerHTML = html
 
-
-})
 
   document.getElementById("logoutBtn").addEventListener("click", function() {
     location.href = '/'
@@ -175,3 +167,44 @@ socket.on('roomData' , ({room ,users})=>{
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 }
+socket.on('roomData', ({ room, users }) => {
+  const html = Mustache.render(sideBarTemplate, {
+      room,
+      users
+  });
+  document.querySelector('#sidebar').innerHTML = html;
+
+  document.querySelector('#onlineUsersBtn').addEventListener('click', (e) => {
+      const popup = document.getElementById('onlineUsersPopup');
+      popup.classList.remove('hidden');
+      updateOnlineUsers(users);
+  });
+
+  document.getElementById('closePopup').addEventListener('click', () => {
+      const popup = document.getElementById('onlineUsersPopup');
+      popup.classList.add('hidden');
+  });
+});
+
+function updateOnlineUsers(users) {
+  const userList = document.getElementById('onlineUsersList');
+  userList.innerHTML = ''; // Clear previous list
+
+  if (users.length === 0) {
+      const li = document.createElement('li');
+      li.textContent = 'No users online';
+      userList.appendChild(li);
+  } else {
+      users.forEach(user => {
+          const li = document.createElement('li');
+          li.textContent = user.username;
+          userList.appendChild(li);
+      });
+  }
+}
+
+
+
+
+
+

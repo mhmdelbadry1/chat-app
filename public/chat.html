@@ -46,10 +46,37 @@
 
         margin: 0 10px; /* Adjust the margin for smaller screens */
       }
+
+      .input-container .input-field{
+        width:50px;
+        font-size: 12px;
+
+      }
+      .input-container .input-field{
+        font-size: 12px;
+      }
+    }
+
+    @media screen and (max-width: 430px) {
+      #message-form {
+        width: 340px;
+
+        margin: 0 10px; /* Adjust the margin for smaller screens */
+      }
+      .input-container .input-field{
+        width:50px;
+        font-size: 12px;
+
+      }
+      .input-container .input-field{
+        font-size: 12px;
+      }
     }
     @media screen and (max-width: 380px) {
       .input-container .input-field{
         width:50px;
+        font-size: 12px;
+
       }
       .input-container .input-field{
         font-size: 12px;
@@ -90,15 +117,29 @@
     <div class="container mx-auto flex flex-wrap justify-between items-center">
       <h1 class="text-2xl font-bold text-[#deb992]">ChatApp</h1>
       <div class="flex space-x-4 mt-2 md:mt-0">
+        <button id="onlineUsersBtn" class=" bg-transparent p-2 rounded-lg text-[#deb992] transition hover:bg-[#1ba098]">
+          Online Users
+        </button>
         <button class="bg-transparent p-2 rounded-lg text-[#deb992] transition hover:bg-[#1ba098]">
           Profile
         </button>
+    
         <button id="logoutBtn" class="bg-transparent p-2 rounded-lg text-[#deb992] transition hover:bg-[#1ba098]">
           Logout
         </button>
       </div>
     </div>
   </header>
+  <div id="onlineUsersPopup" class="popup hidden">
+    <div class="popup-content">
+        <span class="close-btn" id="closePopup">&times;</span>
+        <h2>Online Users</h2>
+        <ul id="onlineUsersList">
+            <!-- Online users will be dynamically added here -->
+        </ul>
+    </div>
+</div>
+
 
   <div class="container mx-auto flex flex-wrap mt-4 space-x-4 flex-grow">
     <!-- Sidebar -->
@@ -173,48 +214,29 @@
 
 
   <script id="message-template" type="text/html">
-    <div class="chat {{chatAlignmentClass}} mb-4 ">
-          {{#isCurrentUser}}
-          <div class="chat-bubble bg-cyan-900 text-white  rounded-lg max-w-xs"
-            >
-            <span class="font-bold opacity-50 text-white">{{username}}</span>
-            <div class="mb-1">
-              {{#isLocation}}
-                <a href="{{locationUrl}}" target="_blank">My current location</a>
-              {{/isLocation}}
-              {{^isLocation}}
-                {{message}}
-              {{/isLocation}}
-            </div>
-            <div class="flex justify-end">
-              <span class="text-xs text-gray-400">{{createdAt}}</span>
-            </div>
-          </div>
-          {{/isCurrentUser}}
-
-          {{^isCurrentUser}}
-
-          <div class="chat-bubble bg-gray-600 text-white  rounded-lg max-w-xs"
-          >
-          <span class="font-bold opacity-50 text-white">{{username}}</span>
-          <div class="mb-1">
-            {{#isLocation}}
-              <a  href="{{locationUrl}}" target="_blank">My current location</a>
-            {{/isLocation}}
-            {{^isLocation}}
-              {{message}}
-            {{/isLocation}}
-          </div>
-          <div class="flex justify-end">
-            <span class="text-xs text-gray-400">{{createdAt}}</span>
-          </div>
-        </div>
+    <div class="chat {{chatAlignmentClass}} mb-4">
+        {{#isCurrentUser}}
+        <div class="chat-bubble bg-cyan-900 text-white rounded-lg max-w-xs">
         {{/isCurrentUser}}
-
-      
-      
+        {{^isCurrentUser}}
+        <div class="chat-bubble bg-gray-300 text-black rounded-lg max-w-xs">
+        {{/isCurrentUser}}
+            <span class="font-bold opacity-50">{{username}}</span>
+            <div class="mb-1">
+                {{#isLocation}}
+                <a href="{{locationUrl}}" target="_blank">My current location</a>
+                {{/isLocation}}
+                {{^isLocation}}
+                {{message}}
+                {{/isLocation}}
+            </div>
+            <div class="text-xs text-right opacity-50">
+                {{createdAt}}
+            </div>
+        </div>
     </div>
-  </script>
+</script>
+
 
   <script id="sidebar-template" type="text/html">
     <h2  class="text-3xl font-semibold mb-4 ">Room {{room}}</h2>
